@@ -30,7 +30,7 @@ export const submitSolution = async (name, password, solution) => {
     const errorData = await response.json();
     throw new Error(errorData.detail || 'Submission failed');
   }
-  return response
+  return await response.json();
 };
 
 export const getLeaderboard = async () => {

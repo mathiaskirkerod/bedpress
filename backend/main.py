@@ -24,39 +24,11 @@ app.add_middleware(
 )
 
 
-# Setup function to run on startup
 @app.on_event("startup")
 async def startup_event():
     """Initialize everything needed on startup"""
-    # Initialize database
     init_db()
-
-    # Ensure data directory exists
     ensure_data_dir()
-
-    # Check if check_questions.csv exists, create if not
-    if not os.path.exists("data/check_questions.csv"):
-        default_questions = [
-            [
-                "Hvor mange dager må det gå før purregebyr og renter kan beregnes",
-                "SupportAI",
-            ],
-            ["Legge inn kontaktperson hos kunde", "Sticos"],
-            ["Hvordan trekke en ansatt et beløp i lønn?", "SupportAI"],
-            ["HVORDAN FINNER MAN LISTE FOR RF-1321 I TRIPLETEX", "Sticos"],
-            ["Mva på konto uten avdeling", "SupportAI"],
-        ]
-
-        os.makedirs("data", exist_ok=True)
-
-        import csv
-
-        with open("data/check_questions.csv", "w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerow(["question", "classification"])
-            writer.writerows(default_questions)
-
-    # Generate test questions if they don't exist
     if not os.path.exists("data/test_questions.csv"):
         generate_test_questions()
 
@@ -93,6 +65,22 @@ async def submit_response(user: User):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+    # Check the current number of tries
+    conn = sqlite3.connect("leaderboard.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT tries FROM scores WHERE name = ? ORDER BY timestamp DESC LIMIT 1",
+        (name,),
+    )
+    row = cursor.fetchone()
+    tries = row[0] if row else 0
+
+    if tries >= 5:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Maximum number of tries exceeded",
+        )
+
     # Evaluate the solution
     evaluation = test_evaluate(user.solution or "")
 
@@ -106,9 +94,8 @@ async def submit_response(user: User):
 
     # Return the evaluation results
     response = SubmissionResponse(
-        score=evaluation["score"], results=evaluation["results"]
+        score=evaluation["score"], results=evaluation["results"], num_uses=tries + 1
     )
-    print(response)
     return response
 
 

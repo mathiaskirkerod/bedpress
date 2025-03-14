@@ -96,9 +96,7 @@ const SubmitPage = () => {
         return;
       }
 
-      const data = await response.json();
-      console.log(data);
-      setFeedback(data);
+      setFeedback(response);
     } catch (error) {
       console.error(error);
       setError(error.message || 'Submission failed');
@@ -158,6 +156,12 @@ const SubmitPage = () => {
                 <span className="font-semibold">Your Score: </span>
                 <span className={`font-medium text-lg ${feedback && feedback.score > 3 ? 'text-green-600' : 'text-amber-600'}`}>
                   {feedback ? `${feedback.score}/10` : 'N/A'}
+                </span>
+              </div>
+              <div className="mb-4">
+                <span className="font-semibold">Number of Tries: </span>
+                <span className="font-medium text-lg text-gray-800">
+                  {feedback ? `${feedback.num_uses}/5` : 'N/A'}
                 </span>
               </div>
               <div className="mb-6 overflow-hidden rounded-lg border border-gray-200">

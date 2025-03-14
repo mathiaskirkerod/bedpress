@@ -23,6 +23,7 @@ class SubmissionResponse(BaseModel):
 
     score: int
     results: Dict[str, AnswerResult]
+    num_uses: int
 
 
 class LeaderboardEntry(BaseModel):
