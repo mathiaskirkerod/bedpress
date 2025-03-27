@@ -23,6 +23,14 @@ def init_db():
     """
     )
 
+    # Check if tries column exists and add it if it doesn't
+    cursor.execute("PRAGMA table_info(scores)")
+    columns = [col[1] for col in cursor.fetchall()]
+    
+    if "tries" not in columns:
+        print("Migrating database: Adding 'tries' column to scores table")
+        cursor.execute("ALTER TABLE scores ADD COLUMN tries INTEGER DEFAULT 0")
+
     conn.commit()
     conn.close()
 
