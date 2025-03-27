@@ -1,5 +1,101 @@
 prompt ; source
-invoice in English ; SupportAI
-bokføre fordring på ansatt ; Sticos
-manuell bankavstemming ; SupportAI
-bankavstemming mangler ; SupportAI
+Hvilken tigang må man ha for å se Mitt abonnement? ; SupportAI
+Er det mulig å foreta regnskapsmessige avskrivninger på immaterielle eiendeler? ; Sticos
+Hvordan bokfører jeg en kreditnota? ; SupportAI
+Hva må rapporteres i aksjonærregisteroppgaven? ; Sticos
+Kan selskaper få fradrag for gaver til frivillige organisasjoner? ; Sticos
+Er det mulig å fradragsføre tap på aksjer? ; Sticos
+Hvordan beregnes lønn under foreldrepermisjon? ; Sticos
+Hvilke to bankintegrasjoner finnes i Tripletex? ; SupportAI
+Hvordan oppretter jeg en abonnementsfaktura? ; SupportAI
+Hvilke regler og retningslinjer gjelder for refusjon av ansattes utlegg? ; Sticos
+Hvordan ser jeg sammenstillingsoppgaven min i Tripletex? ; SupportAI
+Hvordan blir utbytte beskattet for aksjonærer? ; Sticos
+Hvordan kan jeg viderefakturere kostnader i Tripletex? ; SupportAI
+Når er det krav til føring av personalliste, og hva skal den inneholde? ; Sticos
+Hvordan godkjenner jeg betalinger i Tripletex? ; SupportAI
+Hvordan gir jeg tilganger til mine ansatte? ; SupportAI
+Er refunderte utlegg skattepliktige? ; Sticos
+Hvordan innberetter jeg obligatorisk tjenestepensjon? ; Sticos
+Hvilke jobbrettigheter har man etter å ha vært i foreldrepermisjon? ; Sticos
+Hvordan kan jeg se antall årsverk i Tripletex? ; SupportAI
+Hvilke regler gjelder for regnskapsmessige avskrivninger? ; Sticos
+Hvordan beregnes ekstrabeskatning ved lån fra en personlig skattyter til selskapet? ; Sticos
+Hvordan ser jeg fakturaene mine? ; SupportAI
+Hvordan gir jeg tilgang til regnskapsfører? ; SupportAI
+Hva må jeg gjøre for å lage en lønnskjøring i Tripletex? ; SupportAI
+Hvordan beregnes ekstrabeskatning ved lån fra personlig skattyter til selskap? ; Sticos
+Hvordan ser jeg sammenstillingsoppgaven min i Tripletex? ; SupportAI
+Hvordan oppretter jeg en abonnementsfaktura? ; SupportAI
+Hva må rapporteres i aksjonærregisteroppgaven? ; Sticos
+Jeg vil endre e-postadressen vi mottar faktura fra Tripletex på. Hvordan gjør jeg det? ; SupportAI
+Kan jeg sende fakturaene mine til inkasso? ; SupportAI
+Hvordan legger jeg inn åpningsbalansen? ; SupportAI
+Hva er forskuddsskatt og hvordan påvirker det et AS? ; Sticos
+Hva må jeg gjøre for å lage en lønnskjøring i Tripletex? ; SupportAI
+Hvordan ser jeg sammenstillingsoppgaven min i Tripletex? ; SupportAI
+Er refunderte utlegg skattepliktige? ; Sticos
+Jeg ønsker å sende samme faktura til flere kunder. Hvordan gjør jeg dette? ; SupportAI
+Under hvilke betingelser kan en fusjon være skattefri? ; Sticos
+Hva er de forskjellige typene fusjoner? ; Sticos
+Jeg får ikke valgt riktig mva-kode på ordrelinjene mine. Hva gjør jeg? ; SupportAI
+Kan jeg få en oversikt over de mest solgte produktene mine? ; SupportAI
+Hvordan godkjenner jeg betalinger i Tripletex? ; SupportAI
+Hvordan gir jeg tilganger til mine ansatte? ; SupportAI
+Hva skal rapporteres i aksjonærregisteroppgaven? ; Sticos
+Hva er kriteriene for at en påkostning skal balanseføres? ; Sticos
+Hva er de vanlige oppsigelsesfristene i et arbeidsforhold? ; Sticos
+Hvordan avskrives driftsmidler etter balanseføring? ; Sticos
+Hvordan lager jeg en faktura? ; SupportAI
+Hvordan håndteres refusjon av utlegg for ansatte? ; Sticos
+Hva sier arbeidsmiljøloven om daglig arbeidsfri? ; Sticos
+Hvilke regler gjelder for regnskapsmessige avskrivninger? ; Sticos
+Hvordan legger jeg inn åpningsbalansen? ; SupportAI
+Skal det beregnes merverdiavgift ved salg av et brukt driftsmiddel? ; Sticos
+Hvilke regler gjelder for regnskapsmessige avskrivninger? ; Sticos
+Skal det beregnes merverdiavgift ved salg av et brukt driftsmiddel? ; Sticos
+Hvordan bruker jeg bilagsmottaket i Tripletex? ; SupportAI
+Hvordan beregnes sykepenger for ansatte som jobber deltid? ; Sticos
+Hvordan kan jeg føre timer på fakturerbare aktiviteter? ; SupportAI
+Hvordan ser jeg fakturaene mine? ; SupportAI
+Hvordan oppretter jeg en abonnementsfaktura? ; SupportAI
+Hvordan legger jeg inn åpningsbalansen? ; SupportAI
+Hvordan aktiverer jeg EHF i Tripletex? ; SupportAI
+Er fri telefon og andre elektroniske kommunikasjonsmidler skattepliktige? ; Sticos
+Hvordan fungerer fritaksmetoden ved skattlegging? ; Sticos
+Hvordan godkjenner jeg betalinger i Tripletex? ; SupportAI
+Hvilke tilganger gir malen vanlig ansatt? ; SupportAI
+Hvordan beskattes utbytte for aksjonærer? ; Sticos
+Hvordan gir jeg tilgang til revisor? ; SupportAI
+Hva må jeg gjøre for å lage en lønnskjøring i Tripletex? ; SupportAI
+Hva er oppsigelsesfristene for arbeidstaker og arbeidsgiver i prøvetiden? ; Sticos
+Hvordan ser jeg fakturaene mine? ; SupportAI
+Hvordan bruker jeg bilagsmottaket i Tripletex? ; SupportAI
+Hvordan aktiverer jeg EHF i Tripletex? ; SupportAI
+Under hvilke betingelser kan en fusjon være skattefri? ; Sticos
+manuell opplastning i automatisk bankavstemming ; SupportAI
+hvordan legge til eksisterende tripletex kunde ; SupportAI
+Er ei dunjakke benyttet på vinterstid for snekker eller varmepumpemontør å anse som verneklær med tilhørende fradragsrett i næringa? ; Sticos
+er det nye frister for utsettelse av skattemeldingen for 2023 ; Sticos
+fakturageby inngående faktura ; Sticos
+integrasjon med bank ; SupportAI
+Utbetaling spleis aksjer ; Sticos
+Avtale om overdragelse av fordring ; Sticos
+får ikke valg riktig eiendel ; SupportAI
+Hvordan riktig registrere ansatte som ikke lenger jobber for oss, men vi må  å betale dem feriepenger ,for å slippe å betale etableringsgebyr for dem? ; SupportAI
+endre selskapsattestant ; SupportAI
+klarnafiler ; SupportAI
+mva ; Sticos
+Er det skatt på utbytte? ; Sticos
+avvist av banken ; SupportAI
+Det er ikke snakk om så mye og lånet tilbakebetales innen 10 dager. Igjen, det er et holdingselskap som kun eies av meg. ; Sticos
+jeg vi lavslutte pakken årsoppgjrø sammen med abbonnement BASIS. jeg tenker at de går sammen når jeg avslutter BAsis, men vil være helt sikker. Basis er avsluttet i dag med 3 mnds varsel ; SupportAI
+er det mulig å legge in en ansatt kun til en gang betaling? ; SupportAI
+vi har utenlandsk ansatt og han har ikke fått hans første skattekort ennå. Hva kan vi gjøre? Kan vi vente med utbetaling av lønn? ; Sticos
+Feil på innsending av årsrgnskap ; SupportAI
+Hva betyr sikkerhet mht. KID og valg av modulus 10 og modulus 11 ; Sticos
+hvordan føre sykepenger ; Sticos
+nedskrive tilhenger ; Sticos
+ny bil som koster 375 000 kr og det står ink moms får jeg tilbake på momsen da ? ; Sticos
+sponsing ; Sticos
+korleis vurdere vare i arbeid? ; Sticos

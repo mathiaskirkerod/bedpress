@@ -1,15 +1,11 @@
 import csv
-import random
 import os
 import json
 from typing import Dict, List, Tuple, Any, Optional
-import pydantic
-from typing import Literal, List, Tuple, Optional, Dict, Any
-from pydantic import BaseModel
 from models import OpenAIResponse
 import os
 from openai import OpenAI
-
+import tqdm
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -48,7 +44,9 @@ def call_openai_api(
         # Prepare messages for the API
         results = {}
         # Add each question as a user message
-        for i, (question, _) in enumerate(questions.items()):
+        for i, (question, _) in tqdm.tqdm(
+            enumerate(questions.items()), desc="Evaluating questions"
+        ):
             system_message = [
                 {
                     "role": "system",
@@ -113,7 +111,7 @@ def parse_openai_response(
     return results
 
 
-def evaluate(system_prompt: str) -> Dict[str, Dict[str, Any]]:
+def evaluate(system_prompt: str, questions) -> Dict[str, Dict[str, Any]]:
     """
     Evaluate free text against known questions using OpenAI API.
     If API call fails, falls back to random classifications.
@@ -124,20 +122,17 @@ def evaluate(system_prompt: str) -> Dict[str, Dict[str, Any]]:
     Returns:
         A dictionary mapping question keys to evaluation results
     """
-    check_questions = load_questions("data/check_questions.csv")
 
-    response: dict[str, dict[str, str]] = call_openai_api(
-        system_prompt, check_questions
-    )
+    response: dict[str, dict[str, str]] = call_openai_api(system_prompt, questions)
 
     # Parse the response
     if response:
-        parsed_data = parse_openai_response(response, check_questions)
+        parsed_data = parse_openai_response(response, questions)
         return parsed_data
 
     # Fallback to random results if API call is not possible or fails
     results = {}
-    for key, value in check_questions.items():
+    for key, value in questions.items():
         results[key] = {
             "question": key,
             "classification": "?",

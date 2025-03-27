@@ -15,10 +15,10 @@ def init_db():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         score INTEGER NOT NULL,
-        tmp_score INTEGER,
+        finalScore INTEGER,
         solution TEXT,
         timestamp TEXT NOT NULL,
-        tries INTEGER DEFAULT 0
+        tries INTEGER DEFAULT 10
     )
     """
     )
@@ -41,7 +41,6 @@ def save_submission(
     name: str,
     score: int,
     solution: Optional[str] = None,
-    tmp_score: Optional[int] = None,
 ) -> int:
     """
     Save a user submission to the database
@@ -50,7 +49,6 @@ def save_submission(
         name: User's name
         score: The score achieved (1-5)
         solution: The user's solution text
-        tmp_score: Temporary score for this submission
 
     Returns:
         The ID of the inserted record
@@ -68,13 +66,49 @@ def save_submission(
     tries = row[0] + 1 if row else 1
 
     cursor.execute(
-        "INSERT INTO scores (name, score, tmp_score, solution, timestamp, tries) VALUES (?, ?, ?, ?, ?, ?)",
-        (name, score, tmp_score, solution, timestamp, tries),
+        "INSERT INTO scores (name, score, finalScore, solution, timestamp, tries) VALUES (?, ?, ?, ?, ?, ?)",
+        (name, score, 0, solution, timestamp, tries),
     )
     last_id = cursor.lastrowid
     conn.commit()
     conn.close()
     return last_id
+
+
+def update_submission(
+    name: str,
+    solution: str,
+    new_final_score: int,
+) -> bool:
+    """
+    Update the final score for a user's submission
+
+    Args:
+        name: User's name
+        solution: The user's solution text
+        new_final_score: The final score achieved (0-100)
+
+    Returns:
+        True if the update was successful, False otherwise
+    """
+    conn = sqlite3.connect("leaderboard.db")
+    cursor = conn.cursor()
+    timestamp = datetime.now().isoformat()
+
+    cursor.execute(
+        """
+        UPDATE scores
+        SET finalScore = ?,
+            timestamp = ?
+        WHERE name = ? AND solution = ?
+        """,
+        (new_final_score, timestamp, name, solution),
+    )
+
+    conn.commit()
+    conn.close()
+
+    return cursor.rowcount > 0
 
 
 def get_leaderboard(limit: int = 10) -> List[Dict[str, Any]]:
