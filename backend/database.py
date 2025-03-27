@@ -8,7 +8,7 @@ def init_db():
     conn = sqlite3.connect("leaderboard.db")
     cursor = conn.cursor()
 
-    # Create scores table with tmp_score field
+    # Create scores table with tries field
     cursor.execute(
         """
     CREATE TABLE IF NOT EXISTS scores (
@@ -17,7 +17,8 @@ def init_db():
         score INTEGER NOT NULL,
         tmp_score INTEGER,
         solution TEXT,
-        timestamp TEXT NOT NULL
+        timestamp TEXT NOT NULL,
+        tries INTEGER DEFAULT 0
     )
     """
     )
@@ -48,18 +49,23 @@ def save_submission(
     """
     conn = sqlite3.connect("leaderboard.db")
     cursor = conn.cursor()
-
     timestamp = datetime.now().isoformat()
 
+    # Check the current number of tries
     cursor.execute(
-        "INSERT INTO scores (name, score, tmp_score, solution, timestamp) VALUES (?, ?, ?, ?, ?)",
-        (name, score, tmp_score, solution, timestamp),
+        "SELECT tries FROM scores WHERE name = ? ORDER BY timestamp DESC LIMIT 1",
+        (name,),
     )
+    row = cursor.fetchone()
+    tries = row[0] + 1 if row else 1
 
+    cursor.execute(
+        "INSERT INTO scores (name, score, tmp_score, solution, timestamp, tries) VALUES (?, ?, ?, ?, ?, ?)",
+        (name, score, tmp_score, solution, timestamp, tries),
+    )
     last_id = cursor.lastrowid
     conn.commit()
     conn.close()
-
     return last_id
 
 

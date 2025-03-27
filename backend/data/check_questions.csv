@@ -1,6 +1,11 @@
-question ; classification
-Hvor mange dager må det gå før purregebyr og renter kan beregnes ; Sticos
-Legge inn kontaktperson hos kunde ; SupportAI
-Hvordan trekke en ansatt et beløp i lønn? ; SupportAI
-HVORDAN FINNER MAN LISTE FOR RF-1321 I TRIPLETEX ; SupportAI
-Mva på konto uten avdeling ; SupportAI
+prompt ; source
+Hvordan registrerer jeg en tilbakebetaling? ; SupportAI
+Kan jeg som administrator endre timelistene til de ansatte? ;	SupportAI
+Hvordan legger jeg til noter i årsregnskapet? ;	SupportAI
+Når må jeg sende inn MVA-melding?  ;	Sticos
+Skal en kapitalforhøyelse regnskapsføres før den er registrert? ;	Sticos
+Hvilken momskode skal jeg bruke ved salg til utlandet? ;	Sticos
+Hvordan skattlegges personalforsikringer?	 ;Sticos
+Er gaver til samarbeidspartnere regnskapsmessig og skattemessig fradragsberettiget? ;	Sticos
+Hvordan opprette MVA-melding?  ;	SupportAI
+Hvordan endrer jeg e-post på en ansatt? ;	SupportAI

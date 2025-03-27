@@ -29,11 +29,11 @@ export const formatDate = (dateString) => {
 export const calculatePodiumHeight = (score, place) => {
   switch(place) {
     case 1:
-      return `${Math.min(220, score * 2.2)}px`;
+      return `${Math.min(220, score * 22)}px`;
     case 2:
-      return `${Math.min(180, score * 2)}px`;
+      return `${Math.min(180, score * 20)}px`;
     case 3:
-      return `${Math.min(150, score * 1.8)}px`;
+      return `${Math.min(150, score * 18)}px`;
     default:
       return '100px';
   }
@@ -42,16 +42,16 @@ export const calculatePodiumHeight = (score, place) => {
 // Mock data for fallback when API fails
 export const getMockLeaderboard = () => {
   return [
-    { name: 'user1', score: 95, timestamp: new Date().toISOString() },
-    { name: 'user2', score: 85, timestamp: new Date().toISOString() },
-    { name: 'user3', score: 75, timestamp: new Date().toISOString() }
+    { name: 'user1', score: 9, timestamp: new Date().toISOString() },
+    { name: 'user2', score: 8, timestamp: new Date().toISOString() },
+    { name: 'user3', score: 5, timestamp: new Date().toISOString() }
   ];
 };
 
 export const getMockTop3 = () => {
   return [
-    { name: 'user1', score: 95, timestamp: new Date().toISOString() },
-    { name: 'user2', score: 85, timestamp: new Date().toISOString() },
-    { name: 'user3', score: 75, timestamp: new Date().toISOString() }
+    { name: 'user1', score: 9, timestamp: new Date().toISOString() },
+    { name: 'user2', score: 8, timestamp: new Date().toISOString() },
+    { name: 'user3', score: 7, timestamp: new Date().toISOString() }
   ];
 };
