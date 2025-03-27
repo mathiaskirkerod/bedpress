@@ -17,11 +17,16 @@ const SubmitPage = () => {
   
   const testQuestions = [
     'Hvordan registrerer jeg en tilbakebetaling?',
+    'JEG VIL SNAKKE MED SUPPORT, EKTE MENNESKE!!!11',
+    'Pause under arbeidstid',
     'Kan jeg som administrator endre timelistene til de ansatte?',
+    'Hvor mye alko kan jeg føre på privat utlegg?',
     'Hvordan legger jeg til noter i årsregnskapet?',
-    'Når må jeg sende inn MVA-melding? ',
+    'Når må jeg sende inn MVA-melding?',
+    'returmelding Altinn',
     'Skal en kapitalforhøyelse regnskapsføres før den er registrert?',
     'Hvilken momskode skal jeg bruke ved salg til utlandet?',
+    'salg av flytebrygge',
     'Hvordan skattlegges personalforsikringer?',
     'Er gaver til samarbeidspartnere regnskapsmessig og skattemessig fradragsberettiget?',
     'Hvordan opprette MVA-melding? ',
