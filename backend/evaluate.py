@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple, Any, Optional
 from models import OpenAIResponse
 import os
 from openai import OpenAI
-
+import tqdm
 
 client = OpenAI()
 OpenAI.api_key = os.getenv(
@@ -47,7 +47,9 @@ def call_openai_api(
         # Prepare messages for the API
         results = {}
         # Add each question as a user message
-        for i, (question, _) in enumerate(questions.items()):
+        for i, (question, _) in tqdm.tqdm(
+            enumerate(questions.items()), desc="Evaluating questions"
+        ):
             system_message = [
                 {
                     "role": "system",

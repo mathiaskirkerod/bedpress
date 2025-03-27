@@ -17,6 +17,7 @@ from utils import generate_test_questions, ensure_data_dir
 from evaluate import load_questions
 import sqlite3
 import tqdm
+import concurrent.futures
 
 
 # Initialize the FastAPI app
@@ -141,9 +142,24 @@ def get_winner():
     # with the latest enties, return the results for the 100 questions
     questions = load_questions("data/test_questions.csv")
 
-    for entry in tqdm.tqdm(latest_entries):
+    def evaluate_entry(entry):
+        """Evaluate a single entry."""
         score = test_evaluate(entry["solution"], questions)["score"]
-        update_submission(entry["name"], entry["solution"], score)
+        return {"name": entry["name"], "solution": entry["solution"], "score": score}
+
+    # Use ThreadPoolExecutor for parallel evaluation
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        results = list(
+            tqdm.tqdm(
+                executor.map(evaluate_entry, latest_entries),
+                desc="Evaluating latest entries",
+                total=len(latest_entries),
+            )
+        )
+
+    # Sequentially update the database with the results
+    for result in results:
+        update_submission(result["name"], result["solution"], result["score"])
 
     # Return the best finalScore per user
     conn = sqlite3.connect("leaderboard.db")
@@ -151,7 +167,7 @@ def get_winner():
     cursor.execute(
         """
         SELECT name, MAX(finalScore) as max_score, MAX(timestamp) as latest_timestamp
-        FROM finalScore
+        FROM scores
         GROUP BY name
         ORDER BY max_score DESC
         """
