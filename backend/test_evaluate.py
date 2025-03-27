@@ -6,7 +6,7 @@ from typing import Dict, Any, List, Tuple
 from evaluate import evaluate, load_questions
 
 
-def test_evaluate(freetext: str) -> Dict[str, Any]:
+def test_evaluate(freetext: str, questions) -> Dict[str, Any]:
     """
     Test the evaluate function against expected results from CSV.
 
@@ -17,24 +17,24 @@ def test_evaluate(freetext: str) -> Dict[str, Any]:
         A dictionary with evaluation results and test results
     """
     # Get evaluation results from OpenAI (or fallback)
-    eval_results = evaluate(freetext)
+    eval_results = evaluate(freetext, questions)
 
     score = sum(result["correct"] for result in eval_results.values())
-    tmp_score = int(score / len(eval_results) * 100)
     test_results = [question["question"] for question in eval_results.values()]
 
-    save_evaluation_log(freetext, eval_results, score, tmp_score)
+    save_evaluation_log(freetext, eval_results, score)
 
     return {
         "score": score,
-        "tmp_score": tmp_score,
         "results": eval_results,
         "test_details": test_results,
     }
 
 
 def save_evaluation_log(
-    freetext: str, results: Dict[str, Any], score: int, tmp_score: int
+    freetext: str,
+    results: Dict[str, Any],
+    score: int,
 ) -> None:
     """
     Save the evaluation details to a log file for debugging.
@@ -43,7 +43,6 @@ def save_evaluation_log(
         freetext: The user's input text
         results: The evaluation results
         score: The final score (1-5)
-        tmp_score: The temporary score (0-100)
     """
     os.makedirs("logs", exist_ok=True)
 
@@ -58,7 +57,6 @@ def save_evaluation_log(
             freetext[:500] + "..." if len(freetext) > 500 else freetext
         ),  # Truncate long inputs
         "score": score,
-        "tmp_score": tmp_score,
         "results": results,
     }
 
@@ -76,8 +74,9 @@ if __name__ == "__main__":
     RF-1321 liste finnes i meny under Lønn > Rapporter > RF-1321.
     Mva på konto uten avdeling krever spesifikk momsbehandling.
     """
+    questions = load_questions("data/check_questions.csv")
 
-    results = test_evaluate(sample_text)
+    results = test_evaluate(sample_text, questions)
 
     print(f"Score (1-5): {results['score']}")
     print(f"Temp Score (0-100): {results['tmp_score']}")

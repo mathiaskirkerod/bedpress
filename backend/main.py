@@ -5,11 +5,19 @@ import os
 # Import local modules
 from models import User, SubmissionResponse, LeaderboardEntry
 from auth import authenticate_user
-from database import init_db, save_submission, get_leaderboard, get_top_three
+from database import (
+    init_db,
+    save_submission,
+    get_leaderboard,
+    get_top_three,
+    update_submission,
+)
 from test_evaluate import test_evaluate
 from utils import generate_test_questions, ensure_data_dir
 from evaluate import load_questions
 import sqlite3
+import tqdm
+
 
 # Initialize the FastAPI app
 app = FastAPI(title="Leaderboard API")
@@ -75,21 +83,21 @@ async def submit_response(user: User):
     row = cursor.fetchone()
     tries = row[0] if row else 0
 
-    if tries >= 5:
+    if tries >= 10:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Maximum number of tries exceeded",
         )
+    check_questions = load_questions("data/check_questions.csv")
 
     # Evaluate the solution
-    evaluation = test_evaluate(user.solution or "")
+    evaluation = test_evaluate(user.solution or "", check_questions)
 
     # Save submission to database with both scores
     save_submission(
         name=name,
         score=evaluation["score"],
         solution=user.solution,
-        tmp_score=evaluation["tmp_score"],
     )
 
     # Return the evaluation results
@@ -100,38 +108,57 @@ async def submit_response(user: User):
 
 
 @app.post("/winner")
-def calculate_winner():
-    # for each unuque user in the database, take the most recent database entry and run the test data on it
-    # then return the user with the highest score, as well as writing it to a new table in the database
-    # this table should contain the name of the user and their score, as well as their textstring
-
-    # get all unique users
+def get_winner():
+    """Get the latest entry for each unique user"""
+    # Connect to the database
     conn = sqlite3.connect("leaderboard.db")
     cursor = conn.cursor()
+
+    # Get all unique users
     cursor.execute("SELECT DISTINCT name FROM scores")
     users = cursor.fetchall()
-    conn.close()
 
-    # get the most recent submission for each user
-    user_scores = []
+    # Get the most recent submission for each user
+    latest_entries = []
     for user in users:
-        conn = sqlite3.connect("leaderboard.db")
-        cursor = conn.cursor()
         cursor.execute(
             "SELECT * FROM scores WHERE name = ? ORDER BY timestamp DESC LIMIT 1",
             (user[0],),
         )
-        user_scores.append(cursor.fetchall())
-        conn.close()
+        latest_entry = cursor.fetchone()
+        if latest_entry:
+            latest_entries.append(
+                {
+                    "name": latest_entry[1],
+                    "timestamp": latest_entry[5],
+                    "solution": latest_entry[4],
+                }
+            )
 
-    # evaluate the most recent submission for each user
-    user_scores_evaluated = []
-    for user in user_scores:
-        evaluation = test_evaluate(user[0][4])
-        user_scores_evaluated.append(evaluation["score"])
+    # Close the database connection
+    conn.close()
 
-    # get the user with the highest score
-    print(user_scores_evaluated)
+    # with the latest enties, return the results for the 100 questions
+    questions = load_questions("data/test_questions.csv")
+
+    for entry in tqdm.tqdm(latest_entries):
+        score = test_evaluate(entry["solution"], questions)["score"]
+        update_submission(entry["name"], entry["solution"], score)
+
+    # Return the best finalScore per user
+    conn = sqlite3.connect("leaderboard.db")
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        SELECT name, MAX(finalScore) as max_score, MAX(timestamp) as latest_timestamp
+        FROM finalScore
+        GROUP BY name
+        ORDER BY max_score DESC
+        """
+    )
+    rows = cursor.fetchall()
+    conn.close()
+    return [{"name": row[0], "score": row[1], "timestamp": row[2]} for row in rows]
 
 
 @app.get("/leaderboard", response_model=list[LeaderboardEntry])

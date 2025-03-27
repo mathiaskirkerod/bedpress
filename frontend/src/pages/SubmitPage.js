@@ -37,7 +37,7 @@ const SubmitPage = () => {
     },
     {
       title: "Sticos",
-      url: "https://www.sticos.no/",
+      url: "https://www.tripletex.no/om-systemet/sticos-faghjelp/",
       description: "Her finner dere informasjon om Sticos og deres produkter. Zipp er navnet på produktet vi bruker.",
       image: ""
     },
@@ -58,6 +58,12 @@ const SubmitPage = () => {
       url: "",
       description: "Standard chat in Tripletex",
       image: chatImage // Use the imported image
+    },
+    {
+      title: "Slik fungerer AI assistenten",
+      url: "https://hjelp.tripletex.no/hc/no/articles/30288790756625-Slik-fungerer-AI-assistenten",
+      description: "Slik fungerer AI assistenten",
+      image: ""
     }
   ];
 
