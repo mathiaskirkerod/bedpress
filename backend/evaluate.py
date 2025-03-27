@@ -64,6 +64,7 @@ def call_openai_api(
                 messages=system_message,
                 response_format=OpenAIResponse,
                 temperature=0.0,
+                seed=42,
             )
             classification = json.loads(response.choices[0].message.content)["response"]
             # switch the word response to the question
