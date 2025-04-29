@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 import os
+import asyncio
 
 # Import local modules
 from models import User, SubmissionResponse, LeaderboardEntry
@@ -47,24 +48,25 @@ async def startup_event():
 async def login(user: User):
     """Login endpoint"""
     # Check authentication
-    name = authenticate_user(user.name, user.password)
+    # name = authenticate_user(user.name, user.password)
 
     # If authentication fails, return 401
-    if name is None:
+    """ if name is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect password",
             headers={"WWW-Authenticate": "Bearer"},
-        )
+        ) """
 
-    return {"name": name}
+    return {"name": user.name}
 
 
 @app.post("/submit", response_model=SubmissionResponse)
 async def submit_response(user: User):
     """Submit a solution and get evaluation results"""
     # Authenticate the user
-    name = authenticate_user(user.name, user.password)
+    # name = authenticate_user(user.name, user.password)
+    name = user.name
 
     # If authentication fails, return 401
     if name is None:
@@ -83,8 +85,9 @@ async def submit_response(user: User):
     )
     row = cursor.fetchone()
     tries = row[0] if row else 0
+    print(f"Tries: {tries}")
 
-    if tries >= 10:
+    if tries >= 5:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Maximum number of tries exceeded",
@@ -92,7 +95,7 @@ async def submit_response(user: User):
     check_questions = load_questions("data/check_questions.csv")
 
     # Evaluate the solution
-    evaluation = test_evaluate(user.solution or "", check_questions)
+    evaluation = await test_evaluate(user.solution or "", check_questions)
 
     # Save submission to database with both scores
     save_submission(
@@ -109,7 +112,7 @@ async def submit_response(user: User):
 
 
 @app.post("/winner")
-def get_winner():
+async def get_winner():
     """Get the latest entry for each unique user"""
     # Connect to the database
     conn = sqlite3.connect("leaderboard.db")
@@ -142,20 +145,15 @@ def get_winner():
     # with the latest enties, return the results for the 100 questions
     questions = load_questions("data/test_questions.csv")
 
-    def evaluate_entry(entry):
-        """Evaluate a single entry."""
-        score = test_evaluate(entry["solution"], questions)["score"]
-        return {"name": entry["name"], "solution": entry["solution"], "score": score}
+    async def evaluate_entry(entry):
+        """Evaluate a single entry asynchronously."""
+        result = await test_evaluate(entry["solution"], questions)
+        return {"name": entry["name"], "solution": entry["solution"], "score": result["score"]}
 
-    # Use ThreadPoolExecutor for parallel evaluation
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        results = list(
-            tqdm.tqdm(
-                executor.map(evaluate_entry, latest_entries),
-                desc="Evaluating latest entries",
-                total=len(latest_entries),
-            )
-        )
+    # Create tasks for all entries and await them
+    tasks = [evaluate_entry(entry) for entry in latest_entries]
+    print("Evaluating latest entries...")
+    results = await asyncio.gather(*tasks)
 
     # Sequentially update the database with the results
     for result in results:

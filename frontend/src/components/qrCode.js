@@ -5,7 +5,7 @@ import QRCode from "react-qr-code";
 
 const QRCodeComponent = () => {
   const location = useLocation();
-  const currentUrl = `${window.location.origin}${location.pathname}`;
+  const currentUrl = `${window.location.origin}`;
 
   return (
     <div className="flex justify-end mb-4">
