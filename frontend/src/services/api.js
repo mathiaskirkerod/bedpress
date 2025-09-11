@@ -23,7 +23,7 @@ export const submitSolution = async (name, password, solution) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, password, solution }),
+    body: JSON.stringify({ name, solution }), // password, 
   });
 
   if (!response.ok) {
@@ -50,5 +50,13 @@ export const getTop3 = async () => {
     throw new Error('Failed to fetch top 3');
   }
   
+  return await response.json();
+};
+
+export const getFinalLeaderboard = async () => {
+  const response = await fetch(`${API_URL}/final`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch final leaderboard');
+  }
   return await response.json();
 };

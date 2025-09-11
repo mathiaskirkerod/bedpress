@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TestItem = ({ question, result }) => {
+const TestItem = ({ question, result, correctClassification }) => {
   const getStatusIcon = () => {
     if (!result) return "?";
     return result.correct ? "✓" : "✗";
@@ -17,19 +17,24 @@ const TestItem = ({ question, result }) => {
   };
 
   return (
-    <tr className="border-b border-gray-200">
-      <td className="py-3 px-4 text-sm">
+    <tr className="border-b border-gray-200 hover:bg-gray-50">
+      <td className="py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm">
         {question}
       </td>
-      <td className="py-3 px-4 w-32 text-center">
-        <div className="flex items-center justify-center">
-          <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full ${getColorClass()} font-bold mr-2`}>
+      <td className="py-2 sm:py-3 px-2 sm:px-4 text-center">
+        <div className="flex flex-col sm:flex-row items-center justify-center">
+          <span className={`inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full ${getColorClass()} font-bold sm:mr-2 mb-1 sm:mb-0`}>
             {getStatusIcon()}
           </span>
-          <span className={`text-sm font-medium ${result ? getColorClass() : 'text-gray-400'}`}>
+          <span className={`text-xs sm:text-sm font-medium ${result ? getColorClass() : 'text-gray-400'}`}>
             {getClassification()}
           </span>
         </div>
+      </td>
+      <td className="py-2 sm:py-3 px-2 sm:px-4 text-center">
+        <span className="text-xs sm:text-sm font-medium text-gray-800">
+          {correctClassification}
+        </span>
       </td>
     </tr>
   );

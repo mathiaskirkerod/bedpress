@@ -6,7 +6,7 @@ class User(BaseModel):
     """User model for authentication and submission"""
 
     name: str
-    password: str
+    # password: str
     solution: Optional[str] = None
 
 
@@ -35,4 +35,4 @@ class LeaderboardEntry(BaseModel):
 
 
 class OpenAIResponse(BaseModel):
-    response: Literal["Sticos", "SupportAI", "Other"]
+    response: Literal["Sticos", "SupportAI", "innsiktsmodulen", "Other"]
