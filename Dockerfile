@@ -14,11 +14,11 @@ WORKDIR /app
 COPY backend/requirements.txt ./
 RUN pip install -r requirements.txt
 
+# Copy built frontend first (React build structure)
+COPY --from=frontend-build /app/frontend/build ./
+
 # Copy backend code
 COPY backend/ ./
-
-# Copy built frontend to be served by backend
-COPY --from=frontend-build /app/frontend/build ./static
 
 # Expose port
 EXPOSE 8000

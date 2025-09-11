@@ -34,7 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount static files if they exist
+# Mount static files from React build
 if os.path.exists("static"):
     app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -210,8 +210,8 @@ async def get_top_three_route():
 @app.get("/{full_path:path}")
 async def serve_react_app(full_path: str):
     """Serve the React app for all non-API routes"""
-    if os.path.exists("static/index.html"):
-        return FileResponse("static/index.html")
+    if os.path.exists("index.html"):
+        return FileResponse("index.html")
     return {"detail": "Frontend not available"}
 
 
