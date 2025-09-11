@@ -1,5 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import os
 import asyncio
 
@@ -32,6 +34,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount static files if they exist
+if os.path.exists("static"):
+    app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.on_event("startup")
 async def startup_event():
@@ -199,6 +204,15 @@ async def get_top_three_route():
         )
         for entry in top_three_data
     ]
+
+
+# Serve React app for all other routes
+@app.get("/{full_path:path}")
+async def serve_react_app(full_path: str):
+    """Serve the React app for all non-API routes"""
+    if os.path.exists("static/index.html"):
+        return FileResponse("static/index.html")
+    return {"detail": "Frontend not available"}
 
 
 # For running the app directly
