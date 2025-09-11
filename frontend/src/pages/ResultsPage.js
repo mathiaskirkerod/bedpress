@@ -59,14 +59,14 @@ const ResultsPage = () => {
         {/* Mock QR Code */}
         <QRCode />
         
-        <div className="mt-6 flex justify-center mb-8">
+        {/* <div className="mt-6 flex justify-center mb-8">
           <a
             href="/final"
             className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full"
           >
             Final results
           </a>
-        </div>
+        </div> */}
         
         {/* Leaderboard section */}
         <LeaderboardTable leaderboard={leaderboard} />
