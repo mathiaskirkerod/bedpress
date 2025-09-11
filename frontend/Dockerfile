@@ -16,8 +16,11 @@ COPY . .
 # Build the React app
 RUN npm run build
 
+# Install serve globally for production serving
+RUN npm install -g serve
+
 # Expose the port that the app runs on
 EXPOSE 3000
 
-# Command to run the application
-CMD ["npm", "start"]
+# Command to serve the built application
+CMD ["serve", "-s", "build", "-l", "3000"]
