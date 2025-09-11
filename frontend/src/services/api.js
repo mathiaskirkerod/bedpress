@@ -1,7 +1,6 @@
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-
+// Use relative URLs for same-origin API calls
 export const loginUser = async (name, password) => {
-  const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +17,7 @@ export const loginUser = async (name, password) => {
 };
 
 export const submitSolution = async (name, password, solution) => {
-  const response = await fetch(`${API_URL}/submit`, {
+  const response = await fetch(`/submit`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -34,7 +33,7 @@ export const submitSolution = async (name, password, solution) => {
 };
 
 export const getLeaderboard = async () => {
-  const response = await fetch(`${API_URL}/leaderboard`);
+  const response = await fetch(`/leaderboard`);
   
   if (!response.ok) {
     throw new Error('Failed to fetch leaderboard');
@@ -44,7 +43,7 @@ export const getLeaderboard = async () => {
 };
 
 export const getTop3 = async () => {
-  const response = await fetch(`${API_URL}/top3`);
+  const response = await fetch(`/top3`);
   
   if (!response.ok) {
     throw new Error('Failed to fetch top 3');
@@ -54,7 +53,7 @@ export const getTop3 = async () => {
 };
 
 export const getFinalLeaderboard = async () => {
-  const response = await fetch(`${API_URL}/final`);
+  const response = await fetch(`/final`);
   if (!response.ok) {
     throw new Error('Failed to fetch final leaderboard');
   }
