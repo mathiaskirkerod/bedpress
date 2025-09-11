@@ -4,6 +4,7 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
+ENV REACT_APP_API_URL=https://bedpress-krk4l.ondigitalocean.app
 RUN npm run build
 
 # Backend stage
@@ -19,7 +20,7 @@ COPY --from=frontend-build /app/frontend/build ./
 
 # Copy backend code
 COPY backend/ ./
-
+ENV REACT_APP_API_URL=https://bedpress-krk4l.ondigitalocean.app
 # Expose port
 EXPOSE 8000
 
