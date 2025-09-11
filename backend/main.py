@@ -206,10 +206,18 @@ async def get_top_three_route():
     ]
 
 
-# Serve React app for all other routes
+# Serve React app for non-API routes only
 @app.get("/{full_path:path}")
 async def serve_react_app(full_path: str):
-    """Serve the React app for all non-API routes"""
+    """Serve the React app for non-API routes"""
+    # Exclude API endpoints from catch-all
+    api_paths = {"login", "submit", "leaderboard", "top3", "final", "winner", "static"}
+    
+    # If it's an API path, return 404 instead of serving React
+    if full_path in api_paths or full_path.startswith("static/"):
+        raise HTTPException(status_code=404, detail="API endpoint not found")
+    
+    # Serve React app for page routes
     if os.path.exists("index.html"):
         return FileResponse("index.html")
     return {"detail": "Frontend not available"}
